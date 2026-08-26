@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Autism Run 2026 — Langkawi Route & Operations Map</title>
+<title>WALK FOR AUTISM — Langkawi Route & Operations Map</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
 <style>
 html,body,#map{height:100%;margin:0}body{font-family:Arial,Helvetica,sans-serif;background:#fff}
@@ -16,7 +16,7 @@ html,body,#map{height:100%;margin:0}body{font-family:Arial,Helvetica,sans-serif;
 </style>
 </head>
 <body>
-<div class="top"><b>AUTISM RUN 2026 — LANGKAWI</b><span>ACTUAL ROAD ROUTE · MAHA TOWER → DATARAN LANG · OPERATIONAL MARKERS OVERLAID</span></div>
+<div class="top"><b>WALK FOR AUTISM</b><span>ACTUAL ROAD ROUTE · MAHA TOWER → DATARAN LANG · OPERATIONAL MARKERS OVERLAID</span></div>
 <div id="map"></div>
 <div class="legend"><i class="lg1">▶</i> Start &nbsp; <i class="lg2">●</i> Checkpoint &nbsp; <i class="lg3">🧩</i> Sensory &nbsp; <i class="lg4">+</i> Support &nbsp; <i class="lg5">!</i> Final Control &nbsp; <i class="lg6">🏁</i> Finish</div>
 <div id="status" class="status">Loading actual road route…</div>
@@ -31,40 +31,11 @@ const pts=[
 {id:6,name:'FINAL CONTROL',lat:6.30870,lon:99.85300,roadLat:6.30870,roadLon:99.85300,cls:'control',icon:'🚧',tags:['TRAFFIC','BARRICADE','AMBULANCE'],activity:'High-priority traffic control, barricades, police / security coordination and protected emergency lane.',place:'Dataran Lang approach — Persiaran Putra'},
 {id:7,name:'DATARAN LANG / EAGLE SQUARE — FINISH',lat:6.30830,lon:99.85192,roadLat:6.30830,roadLon:99.85192,cls:'finish',icon:'🏁',tags:['FINISH','RECOVERY','FAMILY'],activity:'Finish line, timing, medals, hydration, medical / recovery, family reunification, security and participant dispersal.',place:'Dataran Lang / Eagle Square'}
 ];
-
 const map=L.map('map',{zoomControl:true,preferCanvas:true}).setView([6.313,99.852],15);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:20,attribution:'© OpenStreetMap contributors'}).addTo(map);
-
-function addMarker(p){
- const icon=L.divIcon({className:'',html:`<div class="op ${p.cls}">${p.icon}<b>${p.id}</b></div>`,iconSize:[52,52],iconAnchor:[26,26],popupAnchor:[0,-30]});
- const html=`<div class="popup"><h3>${p.id}. ${p.name}</h3><div>${p.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div><div class="place">📍 ${p.place}</div><div class="act"><b>Personnel / activity:</b><br>${p.activity}</div></div>`;
- L.marker([p.lat,p.lon],{icon,zIndexOffset:1000}).addTo(map).bindPopup(html);
- if(Math.abs(p.lat-p.roadLat)>0.00005 || Math.abs(p.lon-p.roadLon)>0.00005){
-   L.polyline([[p.lat,p.lon],[p.roadLat,p.roadLon]],{className:'connector',color:'#7c8da6',weight:2,dashArray:'5 6',opacity:.75}).addTo(map);
- }
-}
+function addMarker(p){const icon=L.divIcon({className:'',html:`<div class="op ${p.cls}">${p.icon}<b>${p.id}</b></div>`,iconSize:[52,52],iconAnchor:[26,26],popupAnchor:[0,-30]});const html=`<div class="popup"><h3>${p.id}. ${p.name}</h3><div>${p.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div><div class="place">📍 ${p.place}</div><div class="act"><b>Personnel / activity:</b><br>${p.activity}</div></div>`;L.marker([p.lat,p.lon],{icon,zIndexOffset:1000}).addTo(map).bindPopup(html);if(Math.abs(p.lat-p.roadLat)>0.00005||Math.abs(p.lon-p.roadLon)>0.00005)L.polyline([[p.lat,p.lon],[p.roadLat,p.roadLon]],{className:'connector',color:'#7c8da6',weight:2,dashArray:'5 6',opacity:.75}).addTo(map)}
 pts.forEach(addMarker);
-
-async function loadRoadRoute(){
- const status=document.getElementById('status');
- try{
-   // IMPORTANT: operational pins are NOT routing waypoints. The blue route is calculated ONLY from START to FINISH.
-   const start=pts[0], finish=pts[6];
-   const coords=`${start.lon},${start.lat};${finish.lon},${finish.lat}`;
-   const url=`https://router.project-osrm.org/route/v1/driving/${coords}?overview=full&geometries=geojson&steps=false&alternatives=false`;
-   const res=await fetch(url); if(!res.ok) throw new Error('Routing unavailable');
-   const data=await res.json(); if(data.code!=='Ok'||!data.routes?.length) throw new Error('No road route');
-   const geometry=data.routes[0].geometry.coordinates.map(([lon,lat])=>[lat,lon]);
-   L.polyline(geometry,{className:'route-under',color:'#fff',weight:14,opacity:.95}).addTo(map);
-   L.polyline(geometry,{className:'route',color:'#146fe8',weight:8,opacity:1}).addTo(map);
-   map.fitBounds(L.latLngBounds(geometry),{padding:[65,65]});
-   const km=(data.routes[0].distance/1000).toFixed(2);
-   status.className='status ok'; status.textContent=`ACTUAL ROAD ROUTE · ${km} km · START → FINISH`;
- }catch(err){
-   status.className='status warn'; status.textContent='Road routing unavailable — route line hidden rather than drawing a false straight line.';
-   map.fitBounds(L.latLngBounds(pts.map(p=>[p.lat,p.lon])),{padding:[65,65]});
- }
-}
+async function loadRoadRoute(){const status=document.getElementById('status');try{const start=pts[0],finish=pts[6];const coords=`${start.lon},${start.lat};${finish.lon},${finish.lat}`;const url=`https://router.project-osrm.org/route/v1/driving/${coords}?overview=full&geometries=geojson&steps=false&alternatives=false`;const res=await fetch(url);if(!res.ok)throw new Error('Routing unavailable');const data=await res.json();if(data.code!=='Ok'||!data.routes?.length)throw new Error('No road route');const geometry=data.routes[0].geometry.coordinates.map(([lon,lat])=>[lat,lon]);L.polyline(geometry,{className:'route-under',color:'#fff',weight:14,opacity:.95}).addTo(map);L.polyline(geometry,{className:'route',color:'#146fe8',weight:8,opacity:1}).addTo(map);map.fitBounds(L.latLngBounds(geometry),{padding:[65,65]});const km=(data.routes[0].distance/1000).toFixed(2);status.className='status ok';status.textContent=`ACTUAL ROAD ROUTE · ${km} km · START → FINISH`}catch(err){status.className='status warn';status.textContent='Road routing unavailable — route line hidden rather than drawing a false straight line.';map.fitBounds(L.latLngBounds(pts.map(p=>[p.lat,p.lon])),{padding:[65,65]})}}
 loadRoadRoute();
 </script>
 </body>
