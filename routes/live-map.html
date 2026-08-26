@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Autism Run 2026 — Live Route Map</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIINfQ3Q0z2qY0z5Z6X7g0yKxQ9fM0M7m3k=" crossorigin="">
+<style>
+html,body,#map{height:100%;margin:0}body{font-family:Arial,Helvetica,sans-serif;background:#fff}.top{position:absolute;z-index:1000;left:16px;top:16px;background:#fff;border-radius:12px;box-shadow:0 2px 12px #0002;padding:12px 15px;max-width:360px}.top b{display:block;color:#08284d;font-size:16px}.top span{font-size:11px;color:#667085}.leaflet-control-attribution{font-size:9px}.route{stroke:#1677e8;stroke-width:7;stroke-opacity:.95}.pin{width:38px;height:48px;position:relative}.pin:before{content:"";position:absolute;left:4px;top:0;width:30px;height:30px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);box-shadow:0 2px 7px #0004}.pin span{position:absolute;left:0;top:4px;width:38px;text-align:center;color:#fff;font-weight:900;font-size:13px;z-index:2}.p1:before{background:#168a52}.p2:before,.p3:before{background:#1677e8}.p4:before{background:#7a3ff2}.p5:before{background:#f79009}.p6:before{background:#d92d20}.p7:before{background:#111}.popup h3{margin:0 0 6px;font-size:14px}.popup .act{font-size:11px;line-height:1.5;margin-top:7px}.popup .tag{display:inline-block;background:#eef4fb;border-radius:999px;padding:3px 7px;margin:2px;font-size:9px;font-weight:800}.legend{position:absolute;z-index:1000;right:16px;bottom:24px;background:#fff;border-radius:10px;box-shadow:0 2px 12px #0002;padding:9px 11px;font-size:10px;line-height:1.7}.dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px}.blue{background:#1677e8}.green{background:#168a52}.purple{background:#7a3ff2}.orange{background:#f79009}.red{background:#d92d20}.black{background:#111}
+</style></head><body>
+<div class="top"><b>AUTISM RUN 2026 — LANGKAWI</b><span>REAL ROAD MAP · MAHA TOWER → KUAH WATERFRONT → TAMAN LAGENDA → DATARAN LANG</span></div>
+<div id="map"></div>
+<div class="legend"><span class="dot green"></span>Start &nbsp; <span class="dot blue"></span>Checkpoint &nbsp; <span class="dot purple"></span>Sensory &nbsp; <span class="dot orange"></span>Support &nbsp; <span class="dot red"></span>Final Control &nbsp; <span class="dot black"></span>Finish</div>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script>
+const pts=[
+{id:1,name:'MAHA TOWER — START',lat:6.32016,lon:99.84586,cls:'p1',tags:['START','ASSEMBLY','MEDICAL'],activity:'Participant assembly, registration/QR check-in, briefing, accessibility support, pre-start medical and marshal release.'},
+{id:2,name:'RUNNER CHECKPOINT',lat:6.3159,lon:99.8501,cls:'p2',tags:['CHECKPOINT','WATER','MARSHAL'],activity:'Route guidance, hydration, regrouping, participant observation and checkpoint confirmation.'},
+{id:3,name:'KUAH WATERFRONT',lat:6.3099,lon:99.8531,cls:'p3',tags:['CHECKPOINT','HYDRATION','SECURITY'],activity:'Hydration, route control, pedestrian/vehicle interface and security/marshal deployment.'},
+{id:4,name:'TAMAN LAGENDA — SENSORY SAFE ZONE',lat:6.31289,lon:99.85382,cls:'p4',tags:['SENSORY','REST','NASOM'],activity:'Low-stimulation rest, shade, water, parent/caregiver support and autism-trained volunteers.'},
+{id:5,name:'SUPPORT ZONE',lat:6.3107,lon:99.8530,cls:'p5',tags:['MEDICAL','WATER','SUPPORT'],activity:'Hydration, medical observation, recovery support and rear-sweeper coordination.'},
+{id:6,name:'FINAL CONTROL',lat:6.3090,lon:99.85235,cls:'p6',tags:['TRAFFIC','BARRICADE','AMBULANCE'],activity:'High-priority traffic control, barricades, police/security coordination and protected emergency lane.'},
+{id:7,name:'DATARAN LANG / EAGLE SQUARE — FINISH',lat:6.3083,lon:99.85192,cls:'p7',tags:['FINISH','RECOVERY','FAMILY'],activity:'Finish line, timing, medals, hydration, medical/recovery, family reunification, security and participant dispersal.'}
+];
+const map=L.map('map',{zoomControl:true}).setView([6.313,99.851],15);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:20,attribution:'© OpenStreetMap contributors'}).addTo(map);
+const latlngs=pts.map(p=>[p.lat,p.lon]);
+L.polyline(latlngs,{className:'route',color:'#1677e8',weight:7,opacity:.95}).addTo(map);
+pts.forEach(p=>{const icon=L.divIcon({className:'',html:`<div class="pin ${p.cls}"><span>${p.id}</span></div>`,iconSize:[38,48],iconAnchor:[19,44],popupAnchor:[0,-40]});const html=`<div class="popup"><h3>${p.id}. ${p.name}</h3><div>${p.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div><div class="act"><b>Personnel / activity:</b><br>${p.activity}</div></div>`;L.marker([p.lat,p.lon],{icon}).addTo(map).bindPopup(html);});
+map.fitBounds(L.latLngBounds(latlngs),{padding:[45,45]});
+</script></body></html>
