@@ -1,71 +1,75 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Autism Run 2026 — Road Route Map</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Autism Run 2026 — Langkawi Route & Operations Map</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
 <style>
 html,body,#map{height:100%;margin:0}body{font-family:Arial,Helvetica,sans-serif;background:#fff}
-.top{position:absolute;z-index:1000;left:16px;top:16px;background:#fff;border-radius:14px;box-shadow:0 3px 16px #0002;padding:13px 16px;max-width:390px}.top b{display:block;color:#08284d;font-size:16px}.top span{font-size:11px;color:#667085;line-height:1.5}
-.route{stroke:#1268e5;stroke-width:8;stroke-opacity:.95;stroke-linecap:round;stroke-linejoin:round}.route-outline{stroke:#fff;stroke-width:13;stroke-opacity:.9;stroke-linecap:round;stroke-linejoin:round}
-.pin{width:46px;height:56px;position:relative;filter:drop-shadow(0 2px 3px #0004)}.pin:before{content:"";position:absolute;left:4px;top:0;width:38px;height:38px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:#1677e8}.pin span{position:absolute;left:0;top:8px;width:46px;text-align:center;color:#fff;font-weight:900;font-size:14px;z-index:2}.p1:before{background:#168a52}.p2:before,.p3:before{background:#1677e8}.p4:before{background:#7a3ff2}.p5:before{background:#f79009}.p6:before{background:#d92d20}.p7:before{background:#111}
-.popup{min-width:220px}.popup h3{margin:0 0 7px;font-size:14px;color:#08284d}.popup .act{font-size:11px;line-height:1.55;margin-top:7px}.popup .tag{display:inline-block;background:#eef4fb;border-radius:999px;padding:4px 7px;margin:2px;font-size:9px;font-weight:800}.popup .routeinfo{margin-top:8px;padding-top:7px;border-top:1px solid #eee;font-size:10px;color:#667085}
-.legend{position:absolute;z-index:1000;right:16px;bottom:24px;background:#fff;border-radius:12px;box-shadow:0 3px 16px #0002;padding:10px 12px;font-size:10px;line-height:1.9}.dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px}.blue{background:#1677e8}.green{background:#168a52}.purple{background:#7a3ff2}.orange{background:#f79009}.red{background:#d92d20}.black{background:#111}
-.status{position:absolute;z-index:1000;left:16px;bottom:20px;background:#fff;border-radius:10px;box-shadow:0 2px 12px #0002;padding:8px 11px;font-size:10px;color:#667085}.status.ok{color:#168a52;font-weight:700}
+.top{position:absolute;z-index:1000;left:16px;top:16px;background:#fff;border-radius:14px;box-shadow:0 3px 16px #0002;padding:12px 15px;max-width:430px}.top b{display:block;color:#08284d;font-size:16px}.top span{font-size:11px;color:#667085;line-height:1.5}
+.route-under{stroke:#fff;stroke-width:14;stroke-opacity:.95;stroke-linecap:round;stroke-linejoin:round}.route{stroke:#146fe8;stroke-width:8;stroke-opacity:1;stroke-linecap:round;stroke-linejoin:round}
+.connector{stroke:#7c8da6;stroke-width:2;stroke-dasharray:5 6;stroke-opacity:.75}
+.op{width:52px;height:52px;border-radius:50%;border:4px solid #fff;box-shadow:0 3px 10px #0005;display:flex;align-items:center;justify-content:center;position:relative;font-size:24px}.op b{position:absolute;right:-9px;top:-9px;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;background:#111;font-size:11px;font-weight:900;border:2px solid #fff}.start{background:#168a52}.cp{background:#1677e8}.sensory{background:#7a3ff2}.support{background:#f79009}.control{background:#d92d20}.finish{background:#111}
+.popup{min-width:235px}.popup h3{margin:0 0 7px;font-size:14px;color:#08284d}.popup .act{font-size:11px;line-height:1.55;margin-top:7px}.popup .tag{display:inline-block;background:#eef4fb;border-radius:999px;padding:4px 7px;margin:2px;font-size:9px;font-weight:800}.popup .place{font-size:10px;color:#667085;margin-top:6px}
+.legend{position:absolute;z-index:1000;right:16px;bottom:20px;background:#fff;border-radius:12px;box-shadow:0 3px 16px #0002;padding:9px 12px;font-size:10px;line-height:1.8}.legend i{display:inline-flex;width:18px;height:18px;border-radius:50%;align-items:center;justify-content:center;font-style:normal;font-size:11px;color:#fff;margin-right:4px}.lg1{background:#168a52}.lg2{background:#1677e8}.lg3{background:#7a3ff2}.lg4{background:#f79009}.lg5{background:#d92d20}.lg6{background:#111}
+.status{position:absolute;z-index:1000;left:16px;bottom:18px;background:#fff;border-radius:10px;box-shadow:0 2px 12px #0002;padding:8px 11px;font-size:10px;color:#667085}.status.ok{color:#168a52;font-weight:700}.status.warn{color:#9a6700}
 </style>
 </head>
 <body>
-<div class="top"><b>AUTISM RUN 2026 — LANGKAWI</b><span>ROAD-SNAPPED WALK ROUTE · MAHA TOWER → CHECKPOINTS → TAMAN LAGENDA → DATARAN LANG</span></div>
+<div class="top"><b>AUTISM RUN 2026 — LANGKAWI</b><span>MAHA TOWER → PERSIARAN PUTRA → KUAH WATERFRONT → TAMAN LAGENDA → DATARAN LANG</span></div>
 <div id="map"></div>
-<div class="legend"><span class="dot green"></span>Start &nbsp; <span class="dot blue"></span>Checkpoint &nbsp; <span class="dot purple"></span>Sensory &nbsp; <span class="dot orange"></span>Support &nbsp; <span class="dot red"></span>Final Control &nbsp; <span class="dot black"></span>Finish</div>
-<div id="status" class="status">Loading real road route…</div>
+<div class="legend">
+<i class="lg1">▶</i> Start &nbsp; <i class="lg2">●</i> Checkpoint &nbsp; <i class="lg3">🧩</i> Sensory &nbsp; <i class="lg4">+</i> Support &nbsp; <i class="lg5">!</i> Final Control &nbsp; <i class="lg6">🏁</i> Finish
+</div>
+<div id="status" class="status">Loading road route…</div>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
 <script>
 const pts=[
-{id:1,name:'MAHA TOWER — START',lat:6.32016,lon:99.84586,cls:'p1',tags:['START','ASSEMBLY','MEDICAL'],activity:'Participant assembly, registration/QR check-in, briefing, accessibility support, pre-start medical and marshal release.'},
-{id:2,name:'RUNNER CHECKPOINT',lat:6.3159,lon:99.8501,cls:'p2',tags:['CHECKPOINT','WATER','MARSHAL'],activity:'Route guidance, hydration, regrouping, participant observation and checkpoint confirmation.'},
-{id:3,name:'KUAH WATERFRONT',lat:6.3099,lon:99.8531,cls:'p3',tags:['CHECKPOINT','HYDRATION','SECURITY'],activity:'Hydration, route control, pedestrian/vehicle interface and security/marshal deployment.'},
-{id:4,name:'TAMAN LAGENDA — SENSORY SAFE ZONE',lat:6.31289,lon:99.85382,cls:'p4',tags:['SENSORY','REST','NASOM'],activity:'Low-stimulation rest, shade, water, parent/caregiver support and autism-trained volunteers.'},
-{id:5,name:'SUPPORT ZONE',lat:6.3107,lon:99.8530,cls:'p5',tags:['MEDICAL','WATER','SUPPORT'],activity:'Hydration, medical observation, recovery support and rear-sweeper coordination.'},
-{id:6,name:'FINAL CONTROL',lat:6.3090,lon:99.85235,cls:'p6',tags:['TRAFFIC','BARRICADE','AMBULANCE'],activity:'High-priority traffic control, barricades, police/security coordination and protected emergency lane.'},
-{id:7,name:'DATARAN LANG / EAGLE SQUARE — FINISH',lat:6.3083,lon:99.85192,cls:'p7',tags:['FINISH','RECOVERY','FAMILY'],activity:'Finish line, timing, medals, hydration, medical/recovery, family reunification, security and participant dispersal.'}
+{id:1,name:'MAHA TOWER — START',lat:6.32016,lon:99.84586,roadLat:6.32016,roadLon:99.84586,cls:'start',icon:'▶',tags:['START','ASSEMBLY','MEDICAL'],activity:'Participant assembly, registration / QR check-in, briefing, accessibility support, pre-start medical and marshal release.',place:'Persiaran Mahawangsa, MAHA Tower'},
+{id:2,name:'RUNNER CHECKPOINT',lat:6.31740,lon:99.85180,roadLat:6.31740,roadLon:99.85180,cls:'cp',icon:'💧',tags:['CHECKPOINT','WATER','MARSHAL'],activity:'Route guidance, hydration, regrouping, participant observation and checkpoint confirmation.',place:'Persiaran Putra — Kuah town approach'},
+{id:3,name:'KUAH WATERFRONT',lat:6.31357,lon:99.85162,roadLat:6.31380,roadLon:99.85350,cls:'cp',icon:'🛟',tags:['WATERFRONT','HYDRATION','SECURITY'],activity:'Hydration, route control, pedestrian / vehicle interface, security and marshal deployment.',place:'Kuah Waterfront / Lagenda Park Beach area'},
+{id:4,name:'TAMAN LAGENDA — SENSORY SAFE ZONE',lat:6.30885,lon:99.85459,roadLat:6.30987,roadLon:99.85609,cls:'sensory',icon:'🧩',tags:['SENSORY','REST','NASOM'],activity:'Low-stimulation rest, shade, water, parent / caregiver support and autism-trained volunteers.',place:'Taman Lagenda — marker shown inside the park; route remains on the public road'},
+{id:5,name:'SUPPORT ZONE',lat:6.30987,lon:99.85609,roadLat:6.30987,roadLon:99.85609,cls:'support',icon:'🏥',tags:['MEDICAL','WATER','SUPPORT'],activity:'Hydration, medical observation, recovery support and rear-sweeper coordination.',place:'Persiaran Putra / Langkawi Fair approach'},
+{id:6,name:'FINAL CONTROL',lat:6.30870,lon:99.85300,roadLat:6.30870,roadLon:99.85300,cls:'control',icon:'🚧',tags:['TRAFFIC','BARRICADE','AMBULANCE'],activity:'High-priority traffic control, barricades, police / security coordination and protected emergency lane.',place:'Dataran Lang approach — Persiaran Putra'},
+{id:7,name:'DATARAN LANG / EAGLE SQUARE — FINISH',lat:6.30830,lon:99.85192,roadLat:6.30830,roadLon:99.85192,cls:'finish',icon:'🏁',tags:['FINISH','RECOVERY','FAMILY'],activity:'Finish line, timing, medals, hydration, medical / recovery, family reunification, security and participant dispersal.',place:'Dataran Lang / Eagle Square'}
 ];
 
-const map=L.map('map',{zoomControl:true}).setView([6.313,99.851],15);
+// Road-routing waypoints. Operational markers can sit beside the road (e.g. the sensory zone), while the blue route stays on the road network.
+const routePts=pts.map(p=>[p.roadLat,p.roadLon]);
+const map=L.map('map',{zoomControl:true,preferCanvas:true}).setView([6.313,99.852],15);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:20,attribution:'© OpenStreetMap contributors'}).addTo(map);
 
-const latlngs=pts.map(p=>[p.lat,p.lon]);
-const straight=L.polyline(latlngs,{color:'#1268e5',weight:3,opacity:.25,dashArray:'5 8'}).addTo(map);
-
-pts.forEach(p=>{
- const icon=L.divIcon({className:'',html:`<div class="pin ${p.cls}"><span>${p.id}</span></div>`,iconSize:[46,56],iconAnchor:[23,52],popupAnchor:[0,-50]});
- const html=`<div class="popup"><h3>${p.id}. ${p.name}</h3><div>${p.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div><div class="act"><b>Operational activity:</b><br>${p.activity}</div></div>`;
- L.marker([p.lat,p.lon],{icon,zIndexOffset:500}).addTo(map).bindPopup(html);
-});
+function addMarker(p){
+ const icon=L.divIcon({className:'',html:`<div class="op ${p.cls}">${p.icon}<b>${p.id}</b></div>`,iconSize:[52,52],iconAnchor:[26,26],popupAnchor:[0,-30]});
+ const html=`<div class="popup"><h3>${p.id}. ${p.name}</h3><div>${p.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div><div class="place">📍 ${p.place}</div><div class="act"><b>Personnel / activity:</b><br>${p.activity}</div></div>`;
+ L.marker([p.lat,p.lon],{icon,zIndexOffset:1000}).addTo(map).bindPopup(html);
+ if(Math.abs(p.lat-p.roadLat)>0.00005 || Math.abs(p.lon-p.roadLon)>0.00005){
+   L.polyline([[p.lat,p.lon],[p.roadLat,p.roadLon]],{className:'connector',color:'#7c8da6',weight:2,dashArray:'5 6',opacity:.75}).addTo(map);
+ }
+}
+pts.forEach(addMarker);
 
 async function loadRoadRoute(){
  const status=document.getElementById('status');
  try{
-   // OSRM accepts coordinates in lon,lat order and returns full GeoJSON road geometry.
-   const coords=pts.map(p=>`${p.lon},${p.lat}`).join(';');
-   const url=`https://router.project-osrm.org/route/v1/foot/${coords}?overview=full&geometries=geojson&steps=false&alternatives=false`;
+   const coords=routePts.map(([lat,lon])=>`${lon},${lat}`).join(';');
+   // Driving profile is used only to obtain the real public-road geometry. Event traffic control remains subject to authority approval.
+   const url=`https://router.project-osrm.org/route/v1/driving/${coords}?overview=full&geometries=geojson&steps=false&alternatives=false`;
    const res=await fetch(url);
    if(!res.ok) throw new Error('Routing service unavailable');
    const data=await res.json();
    if(data.code!=='Ok'||!data.routes?.length) throw new Error('No road route found');
    const geometry=data.routes[0].geometry.coordinates.map(([lon,lat])=>[lat,lon]);
-   L.polyline(geometry,{className:'route-outline',color:'#fff',weight:13,opacity:.9}).addTo(map);
-   L.polyline(geometry,{className:'route',color:'#1268e5',weight:8,opacity:.96}).addTo(map);
-   map.fitBounds(L.latLngBounds(geometry),{padding:[55,55]});
+   L.polyline(geometry,{className:'route-under',color:'#fff',weight:14,opacity:.95}).addTo(map);
+   L.polyline(geometry,{className:'route',color:'#146fe8',weight:8,opacity:1}).addTo(map);
+   map.fitBounds(L.latLngBounds(geometry),{padding:[65,65]});
    const km=(data.routes[0].distance/1000).toFixed(2);
-   const min=Math.round(data.routes[0].duration/60);
    status.className='status ok';
-   status.textContent=`REAL ROAD ROUTE · ${km} km · walking profile · ${min} min*`;
+   status.textContent=`ROAD ROUTE · ${km} km · actual road geometry`;
  }catch(err){
-   status.className='status';
-   status.textContent='Road routing unavailable — showing waypoint fallback';
-   map.fitBounds(L.latLngBounds(latlngs),{padding:[55,55]});
+   status.className='status warn';
+   status.textContent='Road routing service unavailable — route line hidden rather than drawing a false straight line.';
+   map.fitBounds(L.latLngBounds(routePts),{padding:[65,65]});
  }
 }
 loadRoadRoute();
